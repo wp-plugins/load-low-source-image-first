@@ -1,11 +1,10 @@
 <?php
-defined('ABSPATH') or die("you do not have acces to this page!");
 /**
  * Plugin Name: Load low source image first
  * Plugin URI: http://www.rogierlankhorst.com/load-low-source-image-first
  * Description: Plugin to load a default small image first. 
- * Version: 1.0.0
- * Text Domain: rldh-definitions-hyperlinks
+ * Version: 1.0.1
+ * Text Domain: llsif-load-low-source-image-first
  * Domain Path: /lang
  * Author: Rogier Lankhorst
  * Author URI: http://www.rogierlankhorst.com
@@ -33,8 +32,8 @@ defined('ABSPATH') or die("you do not have acces to this page!");
     llsif_replace_images: to filter the buffer including the replaced images
     llsif_set_imagefile : to change the default s.png small lowsource image
 */
-
-$new_version = '1.0.1'; //if version changes, change upgrade logic in global variables file
+defined('ABSPATH') or die("you do not have acces to this page!");
+$new_version = '1.0.1'; 
 
 class llsif_load_low_source_image_first {
     public $plugin_url;
@@ -56,7 +55,7 @@ class llsif_load_low_source_image_first {
 
     public function enqueue_assets() 
     {
-        wp_enqueue_script( "llsif", $this->plugin_url."llsif.js",array('jquery'),'1.0.0', false );
+        wp_enqueue_script( "llsif", $this->plugin_url."llsif.js",array('jquery'),'1.0.0', true );
     }
 
     public function replace_images_with_lowsource($template) {
