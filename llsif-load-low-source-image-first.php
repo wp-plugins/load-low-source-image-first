@@ -3,7 +3,7 @@
  * Plugin Name: Load low source image first
  * Plugin URI: http://www.rogierlankhorst.com/load-low-source-image-first
  * Description: Plugin to load a default small image first. 
- * Version: 1.0.2
+ * Version: 1.0.3
  * Text Domain: llsif-load-low-source-image-first
  * Domain Path: /lang
  * Author: Rogier Lankhorst
@@ -62,7 +62,7 @@ class llsif_load_low_source_image_first {
       return $template;
     }
 
-    private function end_buffer_capture($buffer) {
+    public function end_buffer_capture($buffer) {
         //find image in buffer
         $imgpos = strpos($buffer,"<img ");
 
