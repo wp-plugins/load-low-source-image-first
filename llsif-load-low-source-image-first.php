@@ -3,7 +3,7 @@
  * Plugin Name: Load low source image first
  * Plugin URI: http://www.rogierlankhorst.com/load-low-source-image-first
  * Description: Plugin to load a default small image first. 
- * Version: 1.0.1
+ * Version: 1.1.0
  * Text Domain: llsif-load-low-source-image-first
  * Domain Path: /lang
  * Author: Rogier Lankhorst
@@ -33,7 +33,6 @@
     llsif_set_imagefile : to change the default s.png small lowsource image
 */
 defined('ABSPATH') or die("you do not have acces to this page!");
-$new_version = '1.0.1'; 
 
 class llsif_load_low_source_image_first {
     public $plugin_url;
@@ -63,21 +62,24 @@ class llsif_load_low_source_image_first {
       return $template;
     }
 
-    private function end_buffer_capture($buffer) {
+    public function end_buffer_capture($buffer) {
         //find image in buffer
         $imgpos = strpos($buffer,"<img ");
-
+        $datapos = strpos($buffer, " data-");
         //while not reached end of file
         While ($imgpos!==false) {
             $endimgpos = strpos($buffer, ">", $imgpos);
-            $srcpos = strpos($buffer,"src=",$imgpos);
+            $srcpos = strpos($buffer," src=",$imgpos);
 
-            if ($endimgpos>$srcpos) {
+            //replace only if the encountered closingtag comes after the src property
+            //and if the encountered dataproperty is not within the current img tag
+            if ($endimgpos>$srcpos && $datapos>$endimgpos) {
                 //the srcpos appears to be inside the image tag, replace the $srcpos
-                $buffer = substr_replace($buffer,'src="'.$this->img_file.'" highsrc=',$srcpos,4);
-            }
+                $buffer = substr_replace($buffer,' src="'.$this->img_file.'" highsrc=',$srcpos,5);
+            }   
             //find next img tag
-            $imgpos = strpos($buffer,"<img ",$imgpos+1);
+            $datapos = strpos($buffer, " data-", $endimgpos);
+            $imgpos = strpos($buffer,"<img ",$endimgpos);
         }
         return apply_filters( 'llsif_replace_images', $buffer );
     }
