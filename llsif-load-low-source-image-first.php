@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Load low source image first
  * Plugin URI: http://www.rogierlankhorst.com/load-low-source-image-first
- * Description: Plugin to load a default small image first. 
- * Version: 1.1.0
+ * Description: Plugin to load a default small image first.
+ * Version: 1.1.1
  * Text Domain: llsif-load-low-source-image-first
  * Domain Path: /lang
  * Author: Rogier Lankhorst
@@ -14,7 +14,7 @@
 /*  Copyright 2014  Rogier Lankhorst  (email : rogier@rogierlankhorst.com)
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as 
+    it under the terms of the GNU General Public License, version 2, as
     published by the Free Software Foundation.
 
     This program is distributed in the hope that it will be useful,
@@ -37,7 +37,7 @@ defined('ABSPATH') or die("you do not have acces to this page!");
 class llsif_load_low_source_image_first {
     public $plugin_url;
     public $img_file;
-    
+
     public function __construct()
     {
         $this->plugin_url = trailingslashit(WP_PLUGIN_URL).trailingslashit(dirname(plugin_basename(__FILE__)));
@@ -52,7 +52,7 @@ class llsif_load_low_source_image_first {
         load_plugin_textdomain('llsif-load-low-source-image-first', FALSE, dirname(plugin_basename(__FILE__)).'/lang/');
     }
 
-    public function enqueue_assets() 
+    public function enqueue_assets()
     {
         wp_enqueue_script( "llsif", $this->plugin_url."llsif.js",array('jquery'),'1.0.0', true );
     }
@@ -76,7 +76,7 @@ class llsif_load_low_source_image_first {
             if ($endimgpos>$srcpos && $datapos>$endimgpos) {
                 //the srcpos appears to be inside the image tag, replace the $srcpos
                 $buffer = substr_replace($buffer,' src="'.$this->img_file.'" highsrc=',$srcpos,5);
-            }   
+            }
             //find next img tag
             $datapos = strpos($buffer, " data-", $endimgpos);
             $imgpos = strpos($buffer,"<img ",$endimgpos);
@@ -87,4 +87,3 @@ class llsif_load_low_source_image_first {
 
 $llsif_load_low_source_image_first = new llsif_load_low_source_image_first();
 unset($llsif_load_low_source_image_first);
-
